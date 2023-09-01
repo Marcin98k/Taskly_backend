@@ -2,15 +2,16 @@ package com.example.taskly.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum PriorityLevel {
-	SELECT_PRIORITY("Select priority"),
-	LOW("Low"),
-	MEDIUM("Medium"),
-	HIGH("High");
+public enum TaskCategory {
+	SELECT_CATEGORY("Select category"),
+	HOME("Home"),
+	WORK("Work"),
+	HOBBY("Hobby"),
+	ELSE("Else");
 	
 private final String name;
 	
-	private PriorityLevel(String name) {
+	TaskCategory(String name) {
 		this.name = name;
 	}
 	
@@ -18,4 +19,5 @@ private final String name;
 	public String getName() {
 		return name;
 	}
+	
 }

@@ -1,8 +1,23 @@
 package com.example.taskly.enums;
 
-public enum TaskState {
-	ACTIVE,
-	INACTIVE,
-	PAUSED,
-	WAITING
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public enum TaskState {	
+	SELECT_STATE("Select state"),
+	ACTIVE("Active"),
+	INACTIVE("Inactive"),
+	STOPPED("Stopped"),
+	WAITING("Waiting"),
+	FINISHED("Finished");
+	
+	private final String name;
+	
+	TaskState(String name) {
+		this.name = name; 
+	}
+	
+	@JsonValue
+	public String getName() {
+		return name;
+	}
 }
