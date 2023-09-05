@@ -3,7 +3,6 @@ package com.example.taskly.enums;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TaskState {	
-	SELECT_STATE("Select state"),
 	ACTIVE("Active"),
 	INACTIVE("Inactive"),
 	STOPPED("Stopped"),

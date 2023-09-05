@@ -1,10 +1,11 @@
 package com.example.taskly.models;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.taskly.enums.PeriodOfTime;
 import com.example.taskly.enums.PriorityLevel;
 import com.example.taskly.enums.TaskCategory;
 import com.example.taskly.enums.TaskState;
@@ -19,10 +20,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.Data;
-
 
 @Entity
 @Data
@@ -68,15 +66,12 @@ public class TaskModel {
 	@Enumerated(EnumType.STRING)
 	private TaskType type;
 	
-	@Column(name="timeReminder", nullable = true)
-	private long timeReminder;
-	
 	public TaskModel() {
 		
 	}	
 
 	public TaskModel(long userId, String name, LocalDateTime startDate, LocalDateTime endDate, TaskState state, PriorityLevel priority,
-			TaskCategory category, String note, TaskType type, long timeReminder) {
+			TaskCategory category, String note, TaskType type) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -87,7 +82,6 @@ public class TaskModel {
 		this.category = category;
 		this.note = note;
 		this.type = type;
-		this.timeReminder = timeReminder;
 	}
 
 	public long getId() {
@@ -170,14 +164,6 @@ public class TaskModel {
 		this.type = type;
 	}
 	
-	public long getTimeReminder() {
-		return timeReminder;
-	}
-	
-	public void setTimeReminder(long timeReminder) {
-		this.timeReminder = timeReminder;
-	}
-	
 	@Override
 	public String toString() {
 		return "\n name " + this.name +
@@ -188,7 +174,6 @@ public class TaskModel {
 				"\n priority " + this.priority +
 				"\n category " + this.category +
 				"\n note " + this.note +
-				"\n type " + this.type +
-				"\n timeReminder " + this.timeReminder;
+				"\n type " + this.type;
 	}
 }

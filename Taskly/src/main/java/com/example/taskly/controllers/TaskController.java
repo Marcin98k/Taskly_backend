@@ -1,6 +1,5 @@
 package com.example.taskly.controllers;
 
-import java.io.Console;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.validation.ValidationErrors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,10 +28,6 @@ import com.example.taskly.enums.TaskType;
 import com.example.taskly.exceptions.ResourceNotFoundException;
 import com.example.taskly.models.TaskModel;
 import com.example.taskly.repositories.TaskRepository;
-import com.mysql.cj.exceptions.AssertionFailedException;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @EnableWebMvc
@@ -46,8 +40,12 @@ public class TaskController {
 	
 	@GetMapping("/showAllTasks")
 	public List<TaskModel> getAllTasks() {
-		System.out.println(taskRepository.findAll());
 		return taskRepository.findAll();
+	}
+	
+	@GetMapping("/showUserTasks/{userId}") 
+	public List<TaskModel> getUserTaskById(@PathVariable Long userId) {
+		return taskRepository.findByUserId(userId);
 	}
 	
 	@GetMapping("/task-state-enums")
@@ -63,6 +61,11 @@ public class TaskController {
 	@GetMapping("/task-categories-enums")
 	public TaskCategory[] getTaskCategoryValues() {
 		return TaskCategory.values();
+	}
+	
+	@GetMapping("/task-type-enums")
+	public TaskType[] getTaskTypeValues() {
+		return TaskType.values();
 	}
 	
 //	Create task;
@@ -94,7 +97,6 @@ public class TaskController {
 		taskModel.setCategory(taskModelDetails.getCategory());
 		taskModel.setNote(taskModelDetails.getNote());
 		taskModel.setType(taskModelDetails.getType());
-		taskModel.setTimeReminder(taskModelDetails.getTimeReminder());
 		
 		TaskModel updateTask = taskRepository.save(taskModel);
 		return ResponseEntity.ok(updateTask);
@@ -112,7 +114,7 @@ public class TaskController {
 	}
 	
 //	Partly change of task;
-	@PatchMapping("showAllTasks/{id}")
+	@PatchMapping("/showAllTasks/{id}")
 	public ResponseEntity<TaskModel> partlyChange(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
 		TaskModel check = taskRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Task with this id: (" + id + ") not exist"));

@@ -10,4 +10,5 @@ import com.example.taskly.models.TaskModel;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskModel, Long>{
 
+	List<TaskModel> findByUserId(Long userId);
 }
