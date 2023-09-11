@@ -29,7 +29,7 @@ import com.example.taskly.exceptions.ResourceNotFoundException;
 import com.example.taskly.models.TaskModel;
 import com.example.taskly.repositories.TaskRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin("*")
 @EnableWebMvc
 @RestController
 @RequestMapping("/api/v1/")
@@ -38,6 +38,10 @@ public class TaskController {
 	@Autowired
 	private TaskRepository taskRepository;
 	
+	@GetMapping("/")
+	public String helloUser() {
+		return "Hello user";
+	}
 	@GetMapping("/showAllTasks")
 	public List<TaskModel> getAllTasks() {
 		return taskRepository.findAll();
