@@ -1,7 +1,5 @@
 package com.example.taskly.models;
 
-import lombok.ToString;
-
 public class RegistrationDTO {
 
 	private String username;

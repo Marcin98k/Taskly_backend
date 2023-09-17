@@ -78,6 +78,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.spring.training.core-spring</groupId>
+			<artifactId>36-mvc</artifactId>
+			<version>5.3.23</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -9,6 +9,10 @@ public class LoginResponseDTO {
 		super();
 	}
 	
+	public LoginResponseDTO(String jwt) {
+		super();
+		this.jwt = jwt;
+	}
 	public LoginResponseDTO(ApplicationUser user, String jwt) {
 		this.user = user;
 		this.jwt = jwt;
@@ -28,5 +32,10 @@ public class LoginResponseDTO {
 	
 	public void setJwt(String jwt) {
 		this.jwt = jwt;
+	}
+	
+	@Override
+	public String toString() {
+		return "Login values(jwt): " + this.jwt;
 	}
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="roles")
-public class UserRoleModel implements GrantedAuthority{
+public class RoleModel implements GrantedAuthority{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,15 +20,15 @@ public class UserRoleModel implements GrantedAuthority{
 	
 	private String authority;
 	
-	public UserRoleModel() {
+	public RoleModel() {
 		super();
 	}
 	
-	public UserRoleModel(String authority) {
+	public RoleModel(String authority) {
 		this.authority = authority;
 	}
 	
-	public UserRoleModel(Long roleId, String authority) {
+	public RoleModel(Long roleId, String authority) {
 		this.roleId = roleId;
 		this.authority = authority;
 	}

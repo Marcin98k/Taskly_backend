@@ -1,5 +1,7 @@
 package com.example.taskly.configuration;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,7 +9,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.example.taskly.keys.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
@@ -30,12 +35,13 @@ import com.nimbusds.jose.proc.SecurityContext;
 @Configuration
 public class SecurityConfiguration {
 
-	private final RSAKeyProperties keyProperties;
+	private RSAKeyProperties keyProperties;
 
+//	@Autowired
 	public SecurityConfiguration(RSAKeyProperties keyProperties) {
 		this.keyProperties = keyProperties;
 	}
-
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -47,16 +53,31 @@ public class SecurityConfiguration {
 		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 		return new ProviderManager(daoAuthenticationProvider);
 	}
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+	    CorsConfiguration configuration = new CorsConfiguration();
+	    configuration.setAllowedOrigins(Arrays.asList("*"));
+	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
+	    configuration.setAllowedHeaders(Arrays.asList("Content-Type", "X-Auth-Token", "Origin", "Authorization"));
+	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	    source.registerCorsConfiguration("/**", configuration);
+	    return source;
+	}
+	
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-		http.csrf(csrf -> csrf.disable())
+		http
+		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(auth -> {
+			auth.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
 			auth.requestMatchers("/auth/**").permitAll();
 			auth.requestMatchers("/admin/**").hasRole("ADMIN");
-			auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
+			auth.requestMatchers("/user/**", "/api/v1/**", "/enum/**").hasAnyRole("ADMIN", "USER");
 			auth.anyRequest().authenticated();
-			});
+		});
 		
 		http.oauth2ResourceServer(oauth2 -> oauth2.
 				jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
@@ -65,7 +86,7 @@ public class SecurityConfiguration {
 		session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
 	}
-
+	
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		return NimbusJwtDecoder.withPublicKey(keyProperties.getPublicKey()).build();

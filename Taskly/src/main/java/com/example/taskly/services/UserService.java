@@ -13,18 +13,14 @@ import com.example.taskly.repositories.UserRepository;
 public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
-	private final PasswordEncoder encoder;
 
 	@Autowired
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
-		this.encoder = passwordEncoder;
 	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("User details services");
-		
 		return userRepository.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException("User no exist"));
 	}

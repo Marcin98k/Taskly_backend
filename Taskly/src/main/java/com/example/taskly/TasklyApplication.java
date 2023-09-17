@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.taskly.models.ApplicationUser;
-import com.example.taskly.models.UserRoleModel;
+import com.example.taskly.models.RoleModel;
 import com.example.taskly.repositories.RoleRepository;
 import com.example.taskly.repositories.UserRepository;
 
@@ -27,10 +27,10 @@ public class TasklyApplication {
 	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
-			UserRoleModel adminAuth = roleRepository.save(new UserRoleModel("ADMIN"));
-			roleRepository.save(new UserRoleModel("USER"));
+			RoleModel adminAuth = roleRepository.save(new RoleModel("ADMIN"));
+			roleRepository.save(new RoleModel("USER"));
 			
-			Set<UserRoleModel> auth = new HashSet<>();
+			Set<RoleModel> auth = new HashSet<>();
 			auth.add(adminAuth);
 			
 			ApplicationUser admin = new ApplicationUser(1L, "admin", passwordEncoder.encode("password"), auth);

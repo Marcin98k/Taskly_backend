@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.taskly.models.UserRoleModel;
+import com.example.taskly.models.RoleModel;
 
 @Repository
-public interface RoleRepository extends JpaRepository<UserRoleModel, Long> {
-	Optional<UserRoleModel> findByAuthority(String authority);
+public interface RoleRepository extends JpaRepository<RoleModel, Long> {
+	Optional<RoleModel> findByAuthority(String authority);
 }

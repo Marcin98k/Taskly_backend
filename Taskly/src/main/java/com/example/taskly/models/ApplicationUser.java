@@ -39,14 +39,14 @@ public class ApplicationUser implements UserDetails {
 			joinColumns = {@JoinColumn(name="user_id")},
 			inverseJoinColumns = {@JoinColumn(name="role_id")}
 			)
-	private Set<UserRoleModel> authorities;
+	private Set<RoleModel> authorities;
 	
 	public ApplicationUser() {
 		super();
-		this.authorities = new HashSet<UserRoleModel>();
+		this.authorities = new HashSet<RoleModel>();
 	}
 	
-	public ApplicationUser(Long userId, String username, String password, Set<UserRoleModel> authorities) {
+	public ApplicationUser(Long userId, String username, String password, Set<RoleModel> authorities) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -68,7 +68,7 @@ public class ApplicationUser implements UserDetails {
 		return this.authorities;
 	}
 	
-	public void setAuthorities(Set<UserRoleModel> authorities) {
+	public void setAuthorities(Set<RoleModel> authorities) {
 		this.authorities = authorities;
 	}
 
