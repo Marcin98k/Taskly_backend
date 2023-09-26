@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum TaskCategory {
 	HOME("Home"),
 	WORK("Work"),
-	HOBBY("Hobby"),
 	ELSE("Else");
 	
 	private final String name;

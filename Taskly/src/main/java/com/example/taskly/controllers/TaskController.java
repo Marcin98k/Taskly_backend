@@ -27,6 +27,7 @@ import com.example.taskly.enums.TaskCategory;
 import com.example.taskly.enums.TaskState;
 import com.example.taskly.enums.TaskType;
 import com.example.taskly.exceptions.ResourceNotFoundException;
+import com.example.taskly.models.TaskCategoryOptions;
 import com.example.taskly.models.TaskModel;
 import com.example.taskly.repositories.TaskRepository;
 
@@ -52,6 +53,37 @@ public class TaskController {
 	public List<TaskModel> getUserTaskById(@PathVariable Long userId) {
 		return taskRepository.findByUserId(userId);
 	}
+	
+	@GetMapping("/showAllCompletedTasks/{userId}")
+	public List<TaskModel> getFinishedTask(@PathVariable Long userId) {
+		return taskRepository.findByUserIdAndState(userId, TaskState.FINISHED);
+	}
+	@GetMapping("/showCurrentTasks/{userId}")
+	public List<TaskModel> getCurrentTask(@PathVariable Long userId) {
+		return taskRepository.findByUserIdAndStateNot(userId, TaskState.FINISHED);
+	}
+	
+//	@PostMapping("/showTaskByCategory/{userId}")
+//	public List<TaskModel> getTaskByCategory(@PathVariable Long userId, @RequestBody String category) {
+//		TaskCategory taskCategory = TaskCategory.valueOf(category);
+//		return taskRepository.findByUserIdAndCategory(userId, taskCategory);
+//	}
+	
+//	Count tasks;
+	@GetMapping("/countAllTask/{userId}")
+	public Long getTaskCount(@PathVariable Long userId) {
+		return taskRepository.countByUserId(userId);
+	}
+	
+	@GetMapping("/countCompletedTask/{userId}")
+	public Long getCompletedTaskCount(@PathVariable Long userId) {
+		return taskRepository.countByUserIdAndState(userId, TaskState.FINISHED);
+	}
+	
+	@GetMapping("/countActiveTask/{userId}")
+	public Long getActiveCount(@PathVariable Long userId) {
+		return taskRepository.countByUserIdAndStateNot(userId, TaskState.FINISHED);
+	}
 
 //	Create task;
 	@PostMapping("/showAllTasks")
@@ -62,14 +94,9 @@ public class TaskController {
 //	Get task;
 	@GetMapping("/showAllTasks/{id}")
 	public ResponseEntity<TaskModel> getTaskById(@PathVariable Long id, Principal principal) {
-
 		TaskModel taskModel = taskRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Task with this id: (" + id + ") not exist"));
-//		if (taskModel.getUserId().equals(principal.getName())) {
 			return ResponseEntity.ok(taskModel);
-//		} else {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-//		}
 	}
 
 //	Update task;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TaskType {
 	SINGLE("Single"),
-	REAPEATED("Repeated");
+	REPEATED("Repeated");
 	
 	private final String name;
 	

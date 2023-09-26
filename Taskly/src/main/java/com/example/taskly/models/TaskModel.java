@@ -1,11 +1,9 @@
 package com.example.taskly.models;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.example.taskly.enums.PeriodOfTime;
 import com.example.taskly.enums.PriorityLevel;
 import com.example.taskly.enums.TaskCategory;
 import com.example.taskly.enums.TaskState;
@@ -16,15 +14,23 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "tasks")
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskModel {
 
 	@Id
@@ -51,13 +57,38 @@ public class TaskModel {
 	@Enumerated(EnumType.STRING)
 	private TaskState state;
 	
+//	@ManyToMany(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name="task_state_junction",
+//			joinColumns= {@JoinColumn(name="task_id")},
+//			inverseJoinColumns = {@JoinColumn(name="state_id")}
+//			)
+//	private String state;
+	
+	
 	@Column(name="priority", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private PriorityLevel priority;
+
+//	@ManyToMany(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name="task_priority_junction",
+//			joinColumns = {@JoinColumn(name="task_id")},
+//			inverseJoinColumns = {@JoinColumn(name="priority_id")}
+//			)
+//	private String priority;
 	
 	@Column(name="category", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TaskCategory category;
+	
+//	@ManyToMany(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name="task_category_junction",
+//			joinColumns = {@JoinColumn(name="task_id")},
+//			inverseJoinColumns= {@JoinColumn(name="category_id")}
+//			)
+//	private String category;
 	
 	@Column(name="note", nullable = true)
 	private String note;
@@ -66,114 +97,11 @@ public class TaskModel {
 	@Enumerated(EnumType.STRING)
 	private TaskType type;
 	
-	public TaskModel() {
-		
-	}	
-
-	public TaskModel(long userId, String name, LocalDateTime startDate, LocalDateTime endDate, TaskState state, PriorityLevel priority,
-			TaskCategory category, String note, TaskType type) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.state = state;
-		this.priority = priority;
-		this.category = category;
-		this.note = note;
-		this.type = type;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public LocalDateTime getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(LocalDateTime startDate) {
-		this.startDate = startDate;
-	}
-
-	public LocalDateTime getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(LocalDateTime endDate) {
-		this.endDate = endDate;
-	}
-
-	public TaskState getState() {
-		return state;
-	}
-
-	public void setState(TaskState state) {
-		this.state = state;
-	}
-
-	public PriorityLevel getPriority() {
-		return priority;
-	}
-
-	public void setPriority(PriorityLevel priority) {
-		this.priority = priority;
-	}
-
-	public TaskCategory getCategory() {
-		return category;
-	}
-
-	public void setCategory(TaskCategory category) {
-		this.category = category;
-	}
-
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-	
-	public TaskType getType() {
-		return type;
-	}
-	
-	public void setType(TaskType type) {
-		this.type = type;
-	}
-	
-	@Override
-	public String toString() {
-		return "\n name " + this.name +
-				"\n userId " + this.userId +
-				"\n startDate " + this.startDate +
-				"\n endDate " + this.endDate +
-				"\n startDate " + this.state +
-				"\n priority " + this.priority +
-				"\n category " + this.category +
-				"\n note " + this.note +
-				"\n type " + this.type;
-	}
+//	@ManyToMany(fetch=FetchType.EAGER)
+//	@JoinTable(
+//			name="task_type_junction",
+//			joinColumns = {@JoinColumn(name="task_id")},
+//			inverseJoinColumns = {@JoinColumn(name="type_id")}
+//			)
+//	private String type;
 }
