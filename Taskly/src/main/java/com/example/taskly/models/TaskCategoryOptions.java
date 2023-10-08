@@ -5,9 +5,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
 @Table(name="task_category_options")
-public class TaskCategoryOptions extends BaseOptions {
-
-}
+public class TaskCategoryOptions extends BaseOptions {}

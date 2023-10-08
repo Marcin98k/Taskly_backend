@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.example.taskly.models.TaskPriorityOptions;
 
 @Repository
-public interface TaskPriorityRepository extends JpaRepository<TaskPriorityOptions, Long>{
-	List<TaskPriorityOptions> findByName(String name);
+public interface TaskPriorityOptionsRepository extends JpaRepository<TaskPriorityOptions, Long>{
+	TaskPriorityOptions findByName(String name);
 }

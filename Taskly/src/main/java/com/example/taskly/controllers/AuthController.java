@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.taskly.dto.LoginResponseDTO;
+import com.example.taskly.dto.RegistrationDTO;
 import com.example.taskly.models.ApplicationUser;
-import com.example.taskly.models.LoginResponseDTO;
-import com.example.taskly.models.RegistrationDTO;
 import com.example.taskly.models.UserProperties;
 import com.example.taskly.services.AuthorizationService;
 import com.example.taskly.services.TokenService;

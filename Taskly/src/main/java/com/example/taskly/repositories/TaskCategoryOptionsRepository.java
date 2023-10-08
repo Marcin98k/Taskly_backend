@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.example.taskly.models.TaskCategoryOptions;
 
 @Repository
-public interface TaskCategoryRepository extends JpaRepository<TaskCategoryOptions, Long>{
-	List<TaskCategoryOptions> findByName(String name);
+public interface TaskCategoryOptionsRepository extends JpaRepository<TaskCategoryOptions, Long>{
+	TaskCategoryOptions findByName(String name);
 }

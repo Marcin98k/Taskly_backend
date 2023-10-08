@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.example.taskly.dto.LoginResponseDTO;
 import com.example.taskly.models.ApplicationUser;
-import com.example.taskly.models.LoginResponseDTO;
 import com.example.taskly.models.RoleModel;
 import com.example.taskly.repositories.RoleRepository;
 import com.example.taskly.repositories.UserRepository;

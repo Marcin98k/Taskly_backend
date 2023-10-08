@@ -8,6 +8,6 @@ import java.util.List;
 import com.example.taskly.models.TaskTypeOptions;
 
 @Repository
-public interface TaskTypeRepository extends JpaRepository<TaskTypeOptions, Long>{
-	List<TaskTypeOptions> findByName(String name);
+public interface TaskTypeOptionsRepository extends JpaRepository<TaskTypeOptions, Long>{
+	TaskTypeOptions findByName(String name);
 }

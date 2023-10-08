@@ -1,4 +1,4 @@
-package com.example.taskly.models;
+package com.example.taskly.dto;
 
 public class RegistrationDTO {
 

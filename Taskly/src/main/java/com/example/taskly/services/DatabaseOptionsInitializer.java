@@ -7,24 +7,24 @@ import org.springframework.stereotype.Service;
 
 import com.example.taskly.models.TaskCategoryOptions;
 import com.example.taskly.models.TaskPriorityOptions;
-import com.example.taskly.models.TaskStateOptions;
+import com.example.taskly.models.TaskStatusOptions;
 import com.example.taskly.models.TaskTypeOptions;
-import com.example.taskly.repositories.TaskCategoryRepository;
-import com.example.taskly.repositories.TaskPriorityRepository;
-import com.example.taskly.repositories.TaskStateRepository;
-import com.example.taskly.repositories.TaskTypeRepository;
+import com.example.taskly.repositories.TaskCategoryOptionsRepository;
+import com.example.taskly.repositories.TaskPriorityOptionsRepository;
+import com.example.taskly.repositories.TaskStatusOptionsRepository;
+import com.example.taskly.repositories.TaskTypeOptionsRepository;
 
 @Service
 public class DatabaseOptionsInitializer implements CommandLineRunner{
 
-	private final TaskCategoryRepository taskCategoryRepository;
-	private final TaskPriorityRepository taskPriorityRepository;
-	private final TaskStateRepository taskStateRepository;
-	private final TaskTypeRepository taskTypeRepository;
+	private final TaskCategoryOptionsRepository taskCategoryRepository;
+	private final TaskPriorityOptionsRepository taskPriorityRepository;
+	private final TaskStatusOptionsRepository taskStateRepository;
+	private final TaskTypeOptionsRepository taskTypeRepository;
 	
-	public DatabaseOptionsInitializer(TaskCategoryRepository taskCategoryRepository,
-			TaskPriorityRepository taskPriorityRepository, TaskStateRepository taskStateRepository,
-			TaskTypeRepository taskTypeRepository) {
+	public DatabaseOptionsInitializer(TaskCategoryOptionsRepository taskCategoryRepository,
+			TaskPriorityOptionsRepository taskPriorityRepository, TaskStatusOptionsRepository taskStateRepository,
+			TaskTypeOptionsRepository taskTypeRepository) {
 		this.taskCategoryRepository = taskCategoryRepository;
 		this.taskPriorityRepository = taskPriorityRepository;
 		this.taskStateRepository = taskStateRepository;
@@ -35,24 +35,24 @@ public class DatabaseOptionsInitializer implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		String[][] category = {{"WORK", "Work"}, {"HOME", "Home"}, {"ELSE", "Else"}};
 		String[][] priority = {{"LOW", "Low"}, {"MEDIUM", "Medium"}, {"HIGH", "High"}};
-		String[][] state = {{"ACTIVE","Active"}, {"INACTIVE", "Inactive"}, {"STOPPED", "Stopped"}, {"WAITING", "Waiting"}, {"FINISHED", "Finished"}};
+		String[][] status = {{"ACTIVE","Active"}, {"INACTIVE", "Inactive"}, {"STOPPED", "Stopped"}, {"WAITING", "Waiting"}, {"FINISHED", "Finished"}};
 		String[][] type = {{"SINGLE", "Single"}, {"REPEATED", "Repeated"}};
 		
 		for(String[] pair: category) {
-			List<TaskCategoryOptions> foundCategorie =
+			TaskCategoryOptions foundCategorie =
 					taskCategoryRepository.findByName(pair[0]);
-			if(foundCategorie == null || foundCategorie.isEmpty()) {
+			if(foundCategorie == null) {
 				TaskCategoryOptions taskCategory = new TaskCategoryOptions();
 				taskCategory.setName(pair[0]);
 				taskCategory.setValue(pair[1]);
 				taskCategoryRepository.save(taskCategory);
-				}
+			}
 		}
 		
 		for(String[] pair: priority) {
-			List<TaskPriorityOptions> foundPriority =
+			TaskPriorityOptions foundPriority =
 					taskPriorityRepository.findByName(pair[0]);
-			if(foundPriority == null || foundPriority.isEmpty()) {
+			if(foundPriority == null) {
 				TaskPriorityOptions taskPriority = new TaskPriorityOptions();
 				taskPriority.setName(pair[0]);
 				taskPriority.setValue(pair[1]);
@@ -60,11 +60,11 @@ public class DatabaseOptionsInitializer implements CommandLineRunner{
 			}
 		}
 		
-		for(String[] pair: state) {
-			List<TaskStateOptions> foundState =
+		for(String[] pair: status) {
+			TaskStatusOptions foundState =
 					taskStateRepository.findByName(pair[0]);
-			if(foundState == null || foundState.isEmpty()) {
-				TaskStateOptions taskState = new TaskStateOptions();
+			if(foundState == null) {
+				TaskStatusOptions taskState = new TaskStatusOptions();
 				taskState.setName(pair[0]);
 				taskState.setValue(pair[1]);
 				taskStateRepository.save(taskState);
@@ -72,9 +72,9 @@ public class DatabaseOptionsInitializer implements CommandLineRunner{
 		}
 		
 		for(String[] pair: type) {
-			List<TaskTypeOptions> foundType =
+			TaskTypeOptions foundType =
 					taskTypeRepository.findByName(pair[0]);
-			if(foundType == null || foundType.isEmpty()) {
+			if(foundType == null) {
 				TaskTypeOptions taskType = new TaskTypeOptions();
 				taskType.setName(pair[0]);
 				taskType.setValue(pair[1]);
