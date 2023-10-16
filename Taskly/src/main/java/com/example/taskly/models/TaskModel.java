@@ -37,12 +37,12 @@ public class TaskModel {
 	private String name;
 	
 	@Column(name="dateAdded")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime dateAdded;
 	
 	@Column(name="taskDate")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime taskDate;
 

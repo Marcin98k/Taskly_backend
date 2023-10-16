@@ -12,9 +12,9 @@ public class TaskDto {
 	private String name;
 	private LocalDateTime dateAdded;
 	private LocalDateTime taskDate;
-	private String status;
-	private String priority;
-	private String category;
-	private String type;
+	private OptionsDto status;
+	private OptionsDto priority;
+	private OptionsDto category;
+	private OptionsDto type;
 	private String note;
 }

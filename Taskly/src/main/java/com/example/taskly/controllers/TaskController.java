@@ -34,27 +34,32 @@ public class TaskController {
 		this.taskService = taskService;
 	}
 	
-	@PostMapping("/showAllTasks")
+	@PostMapping
 	public TaskDto createTask(@RequestBody TaskDto taskDto) {
 		return taskService.createTask(taskDto);
 	}
 	
-	@PutMapping("/showAllTasks/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<ApiResponseDto> updateTask(@PathVariable Long id, @RequestBody TaskModel taskModelDetails) {
 		return taskService.updateTask(id, taskModelDetails);
 	}
 	
-	@PatchMapping("/showAllTasks/{id}")
+	@PatchMapping("/{id}")
 	public ResponseEntity<ApiResponseDto> partllyUpdateTask(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
 		return taskService.partllyUpdateTask(id, fields);
 	}
 	
-	@DeleteMapping("/showAllTasks/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponseDto> deleteTask(@PathVariable Long id) {
 		return taskService.deleteTask(id);
 	}
 	
-	@GetMapping("/showAllTasks")
+	@GetMapping("/{id}")
+	public TaskDto getTask(@PathVariable Long id) {
+		return taskService.getTask(id);
+	}
+	
+	@GetMapping
 	public List<TaskDto> getAllTasks() {
 		return taskService.getAllTasks();
 	}

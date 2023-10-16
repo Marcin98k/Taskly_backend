@@ -25,12 +25,12 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@PatchMapping("/update-account/{id}")
+	@PatchMapping("/account/{id}")
 	public ResponseEntity<ApiResponseDto> partiallyChange(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
 		return userService.partllyUpdateUser(id, fields);
 	}
 	
-	@DeleteMapping("/delete-account/{id}")
+	@DeleteMapping("/account/{id}")
 	public ResponseEntity<ApiResponseDto> deleteAccount(@PathVariable Long id) {
 		return userService.deleteUser(id);
 	}

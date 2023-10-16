@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.example.taskly.dto.OptionsDto;
 import com.example.taskly.dto.TaskDto;
 import com.example.taskly.enums.PriorityLevel;
 import com.example.taskly.enums.TaskCategory;
@@ -71,13 +72,6 @@ public class TaskService {
 		this.taskCategoryOptionsRepository = taskCategoryOptionsRepository;
 	}
 	
-	public List<TaskDto> getAllTasks() {
-		List<TaskModel> taskModels = taskRepository.findAll();
-	    Type listType = new TypeToken<List<TaskDto>>() {}.getType();
-	    List<TaskDto> taskDtos = modelMapper.map(taskModels, listType);
-	    return taskDtos;
-	}
-	
 	private TaskDto convertModelToDto(@RequestBody TaskModel taskModel) {
 		return modelMapper.map(taskModel, TaskDto.class);
 	}
@@ -98,7 +92,7 @@ public class TaskService {
 
 	    return taskModel;
 	}
-
+	
 	private TaskStatusOptions getStatus(String name) {
 	    TaskStatusOptions statusOptions = taskStatusOptionsRepository.findByName(name);
 	    if (statusOptions == null) {
@@ -106,6 +100,11 @@ public class TaskService {
 	    } else {
 	        return statusOptions;
 	    }
+	}
+	
+	private TaskStatusOptions getStatus(OptionsDto optionsDto) {
+		String name = optionsDto.getName();
+		return getStatus(name);
 	}
 
 	private TaskCategoryOptions getCategory(String name) {
@@ -116,6 +115,11 @@ public class TaskService {
 	        return categoryOptions;
 	    }
 	}
+	
+	private TaskCategoryOptions getCategory(OptionsDto optionsDto) {
+		String name = optionsDto.getName();
+	    return getCategory(name);
+	}
 
 	private TaskPriorityOptions getPriority(String name) {
 	    TaskPriorityOptions priorityOptions = taskPriorityOptionsRepository.findByName(name);
@@ -125,6 +129,11 @@ public class TaskService {
 	        return priorityOptions;
 	    }
 	}
+	
+	private TaskPriorityOptions getPriority(OptionsDto optionsDto) {
+		String name = optionsDto.getName();
+	    return getPriority(name);
+	}
 
 	private TaskTypeOptions getType(String name) {
 	    TaskTypeOptions typeOptions = taskTypeOptionsRepository.findByName(name);
@@ -133,6 +142,11 @@ public class TaskService {
 	    } else {
 	        return typeOptions;
 	    }
+	}
+	
+	private TaskTypeOptions getType(OptionsDto optionsDto) {
+		String name = optionsDto.getName();
+	    return getType(name);
 	}
 	
 	public TaskDto createTask(@RequestBody TaskDto taskDto) {
@@ -181,6 +195,20 @@ public class TaskService {
 		  taskRepository.delete(taskModel);
 		  ApiResponseDto response = new ApiResponseDto(true, "Task deleted successfully");
 		  return ResponseEntity.ok(response);
+	}
+	
+	public TaskDto getTask(Long id) {
+		Optional<TaskModel> taskFormDb = taskRepository.findById(id);
+		TaskModel model = taskFormDb.get();
+		TaskDto convertedTask = modelMapper.map(model, TaskDto.class);
+		return convertedTask;
+	}
+	
+	public List<TaskDto> getAllTasks() {
+		List<TaskModel> taskModels = taskRepository.findAll();
+	    Type listType = new TypeToken<List<TaskDto>>() {}.getType();
+	    List<TaskDto> taskDtos = modelMapper.map(taskModels, listType);
+	    return taskDtos;
 	}
 	
 	public List<TaskDto> getUserTask(Long userId) {
