@@ -30,6 +30,8 @@ The following tools are used for developing and testing this application:
 - **Eclipse:** The IDE used for writing and testing code.
 - **SQL Workbench:** A tool for managing and manipulating data in the SQL database.
 - **Postman:** A tool for testing APIs and checking HTTP responses.
+- **JUnit:**  It is used for unit testing and ensures that code works as expected.
+- **Mockito:** It simplifies the development of tests by mocking external dependencies and injecting mock objects.
 
 ## Contact
 If you have any questions/suggestions about this project, please [contact me](marcin3009k@gmail.com).
