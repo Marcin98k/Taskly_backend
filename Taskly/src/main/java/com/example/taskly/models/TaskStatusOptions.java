@@ -5,4 +5,5 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="task_status_options")
-public class TaskStatusOptions extends BaseOptions {}
+public class TaskStatusOptions extends BaseOptions {
+}
