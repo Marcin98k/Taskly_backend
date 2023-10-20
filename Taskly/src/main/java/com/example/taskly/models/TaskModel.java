@@ -28,10 +28,10 @@ public class TaskModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "userId", nullable = false)
-	private long userId;
+	private Long userId;
 	
 	@Column(name="name", nullable = false)
 	private String name;

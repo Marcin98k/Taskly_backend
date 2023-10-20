@@ -1,6 +1,7 @@
 package com.example.taskly;
 
 import java.util.Set;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import org.springframework.boot.CommandLineRunner;
@@ -9,12 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.taskly.models.AccountStatusModel;
 import com.example.taskly.models.ApplicationUser;
 import com.example.taskly.models.RoleModel;
+import com.example.taskly.repositories.AccountStatusRepository;
 import com.example.taskly.repositories.RoleRepository;
 import com.example.taskly.repositories.UserRepository;
-
-
 
 @SpringBootApplication
 public class TasklyApplication {
@@ -24,18 +25,38 @@ public class TasklyApplication {
 	}
 	
 	@Bean
-	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	CommandLineRunner run(RoleRepository roleRepository, UserRepository userRepository,
+			PasswordEncoder passwordEncoder, AccountStatusRepository accountStatusRepository) {
 		return args -> {
-			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
-			RoleModel adminAuth = roleRepository.save(new RoleModel("ADMIN"));
-			roleRepository.save(new RoleModel("USER"));
+			Set<RoleModel> auth = null;
+			AccountStatusModel accountStatus = null;
+			boolean shouldCreateAdmin = true;
 			
-			Set<RoleModel> auth = new HashSet<>();
-			auth.add(adminAuth);
+			if(!roleRepository.findByAuthority("ADMIN").isPresent()) {
+				
+				RoleModel adminAuth = roleRepository.save(new RoleModel("ADMIN"));
+				roleRepository.save(new RoleModel("USER"));
+				
+				auth = new HashSet<>();
+				auth.add(adminAuth);
+			} else {
+				shouldCreateAdmin = false;
+			}
 			
-			ApplicationUser admin = new ApplicationUser(1L, "admin", passwordEncoder.encode("password"), auth);
+			if(!accountStatusRepository.findById(1L).isPresent()) {
+				accountStatus = accountStatusRepository.save(new AccountStatusModel(0L, "Name", "Value", "Description"));			
+			} else {
+				shouldCreateAdmin = false;
+			}
 			
-			userRepository.save(admin);
+			if(shouldCreateAdmin) {
+				
+				ApplicationUser admin = new ApplicationUser(1L, "admin","admin@taskly.pl",
+						passwordEncoder.encode("password"), LocalDateTime.parse("2000-01-01T23:59:59"),
+						accountStatus, true, auth, LocalDateTime.parse("2000-01-01T23:59:59"));
+				
+				userRepository.save(admin);
+			}
 		};
 	}
 }

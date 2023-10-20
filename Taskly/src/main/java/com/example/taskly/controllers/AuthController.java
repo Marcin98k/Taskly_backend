@@ -29,7 +29,7 @@ public class AuthController {
 
 	@PostMapping("/register")
 	public ApplicationUser registerUser(@RequestBody RegistrationDTO registrationDTO) {
-		return authorizationService.registerUser(registrationDTO.getUsername(), registrationDTO.getPassword());
+		return authorizationService.registerUser(registrationDTO);
 	}
 	
 	@PostMapping("/login")

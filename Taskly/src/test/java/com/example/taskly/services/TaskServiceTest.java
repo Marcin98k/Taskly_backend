@@ -27,25 +27,25 @@ import com.example.taskly.repositories.TaskTypeOptionsRepository;
 class TaskServiceTest {
 	
 	@InjectMocks
-	TaskService taskService;
+	private TaskService taskService;
 	
 	@Mock
-	TaskRepository taskRepository;
+	private TaskRepository taskRepository;
 	
 	@Mock
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 	
 	@Mock
-	TaskStatusOptionsRepository taskStatusOptionsRepository;
+	private TaskStatusOptionsRepository taskStatusOptionsRepository;
 	
 	@Mock
-	TaskTypeOptionsRepository taskTypeOptionsRepository;
+	private TaskTypeOptionsRepository taskTypeOptionsRepository;
 	
 	@Mock
-	TaskPriorityOptionsRepository taskPriorityOptionsRepository;
+	private TaskPriorityOptionsRepository taskPriorityOptionsRepository;
 	
 	@Mock
-	TaskCategoryOptionsRepository taskCategoryOptionsRepository;
+	private TaskCategoryOptionsRepository taskCategoryOptionsRepository;
 	
 	private AutoCloseable closeable;
 	

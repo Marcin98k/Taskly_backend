@@ -41,7 +41,7 @@ public class TokenService {
 				.collect(Collectors.joining(" "));
 
 		ApplicationUser details = (ApplicationUser) authrization.getPrincipal();
-		Long userId = details.getUserId();
+		Long userId = details.getId();
 
 		JwtClaimsSet claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).expiresAt(expiryInsatnt).subject(authrization.getName())
 				.claim("id", userId).claim("roles", scope).build();
