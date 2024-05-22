@@ -16,7 +16,6 @@ public class UserKeyGenerator {
 		} catch (Exception e) {
 			throw new IllegalStateException();
 		}
-		
 		return keyPair;
 	}
 }

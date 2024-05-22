@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.taskly.dto.LoginResponseDTO;
+import com.example.taskly.dto.LoginDTO;
 import com.example.taskly.dto.RegistrationDTO;
-import com.example.taskly.models.ApplicationUser;
 import com.example.taskly.models.UserProperties;
 import com.example.taskly.services.AuthorizationService;
 import com.example.taskly.services.TokenService;
@@ -27,14 +26,14 @@ public class AuthController {
 		this.tokenService = tokenService;
 	}
 
-	@PostMapping("/register")
-	public ApplicationUser registerUser(@RequestBody RegistrationDTO registrationDTO) {
-		return authorizationService.registerUser(registrationDTO);
+	@PostMapping("/sign-up")
+	public String signUp(@RequestBody RegistrationDTO registrationDTO) {
+		return authorizationService.signUp(registrationDTO);
 	}
 	
-	@PostMapping("/login")
-	public LoginResponseDTO loginUer(@RequestBody RegistrationDTO body) {
-		return authorizationService.loginUser(body.getUsername(), body.getPassword());
+	@PostMapping("/sign-in")
+	public String signIn(@RequestBody LoginDTO loginDto) {
+		return authorizationService.signIn(loginDto);
 	}
 	
 	@PostMapping("/token/{token}")

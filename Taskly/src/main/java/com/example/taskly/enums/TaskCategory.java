@@ -1,8 +1,12 @@
 package com.example.taskly.enums;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TaskCategory {
+	NO_SELECTED("No selected"),
 	HOME("Home"),
 	WORK("Work"),
 	ELSE("Else");
@@ -16,6 +20,14 @@ public enum TaskCategory {
 	@JsonValue
 	public String getName() {
 		return name;
+	}
+
+	public static Map<TaskCategory, String> getCategoryList() {
+		Map<TaskCategory, String> categories = new TreeMap<>();
+		for(TaskCategory category: TaskCategory.values()) {
+			categories.putIfAbsent(category, category.getName());
+		}
+		return categories;
 	}
 	
 }

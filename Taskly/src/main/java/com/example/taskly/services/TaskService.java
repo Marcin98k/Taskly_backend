@@ -31,9 +31,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.taskly.dto.OptionsDto;
 import com.example.taskly.dto.TaskDto;
-import com.example.taskly.enums.PriorityLevel;
+import com.example.taskly.enums.TaskPriority;
 import com.example.taskly.enums.TaskCategory;
-import com.example.taskly.enums.TaskState;
+import com.example.taskly.enums.TaskStatus;
 import com.example.taskly.enums.TaskType;
 import com.example.taskly.exceptions.ResourceNotFoundException;
 import com.example.taskly.models.ApplicationUser;

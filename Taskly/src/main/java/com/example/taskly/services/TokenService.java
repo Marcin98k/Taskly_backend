@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
@@ -17,7 +16,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import com.example.taskly.models.ApplicationUser;
 import com.example.taskly.models.UserProperties;
-import com.nimbusds.jwt.JWTClaimsSet;
 
 @Service
 public class TokenService {
@@ -32,7 +30,6 @@ public class TokenService {
 	}
 
 	public String generateJwt(Authentication authrization) {
-
 		Instant now = Instant.now();
 		long expiryTime = 360000;
 		Instant expiryInsatnt = now.plusMillis(expiryTime);
@@ -42,10 +39,11 @@ public class TokenService {
 
 		ApplicationUser details = (ApplicationUser) authrization.getPrincipal();
 		Long userId = details.getId();
-
-		JwtClaimsSet claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).expiresAt(expiryInsatnt).subject(authrization.getName())
+		String userEmail = details.getEmail();
+		
+		JwtClaimsSet claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).expiresAt(expiryInsatnt).subject(userEmail)
 				.claim("id", userId).claim("roles", scope).build();
-
+		
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 

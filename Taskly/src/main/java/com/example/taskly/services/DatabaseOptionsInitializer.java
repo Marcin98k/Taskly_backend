@@ -1,10 +1,14 @@
 package com.example.taskly.services;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+import com.example.taskly.enums.TaskCategory;
+import com.example.taskly.enums.TaskPriority;
+import com.example.taskly.enums.TaskStatus;
+import com.example.taskly.enums.TaskType;
 import com.example.taskly.models.TaskCategoryOptions;
 import com.example.taskly.models.TaskPriorityOptions;
 import com.example.taskly.models.TaskStatusOptions;
@@ -33,54 +37,63 @@ public class DatabaseOptionsInitializer implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		String[][] category = {{"WORK", "Work"}, {"HOME", "Home"}, {"ELSE", "Else"}};
-		String[][] priority = {{"LOW", "Low"}, {"MEDIUM", "Medium"}, {"HIGH", "High"}};
-		String[][] status = {{"ACTIVE","Active"}, {"INACTIVE", "Inactive"}, {"STOPPED", "Stopped"}, {"WAITING", "Waiting"}, {"FINISHED", "Finished"}};
-		String[][] type = {{"SINGLE", "Single"}, {"REPEATED", "Repeated"}};
 		
-		for(String[] pair: category) {
-			TaskCategoryOptions foundCategorie =
-					taskCategoryRepository.findByName(pair[0]);
+		Map<TaskCategory, String> categoryOptions = TaskCategory.getCategoryList();
+		Map<TaskPriority, String> priorityOptions = TaskPriority.getPriorityList();
+		Map<TaskStatus, String> statusOptions = TaskStatus.getStatusList();
+		Map<TaskType, String> typeOptions = TaskType.getTypeList();
+		
+		initialzeCategoryTable(categoryOptions);
+		initializePriorityTable(priorityOptions);
+		initializeStatusTable(statusOptions);
+		initializeTypeTable(typeOptions);
+	}
+	
+	private void initialzeCategoryTable(Map<TaskCategory, String> categoryOptions) {
+		categoryOptions.forEach((key, value) -> {
+			TaskCategoryOptions foundCategorie = taskCategoryRepository.findByName(key.toString());
 			if(foundCategorie == null) {
 				TaskCategoryOptions taskCategory = new TaskCategoryOptions();
-				taskCategory.setName(pair[0]);
-				taskCategory.setValue(pair[1]);
+				taskCategory.setName(key.toString());
+				taskCategory.setValue(value);
 				taskCategoryRepository.save(taskCategory);
 			}
-		}
-		
-		for(String[] pair: priority) {
-			TaskPriorityOptions foundPriority =
-					taskPriorityRepository.findByName(pair[0]);
+		});
+	}
+	
+	private void initializePriorityTable(Map<TaskPriority, String> priorityOptions) {
+		priorityOptions.forEach((key, value) -> {
+			TaskPriorityOptions foundPriority = taskPriorityRepository.findByName(key.toString());
 			if(foundPriority == null) {
 				TaskPriorityOptions taskPriority = new TaskPriorityOptions();
-				taskPriority.setName(pair[0]);
-				taskPriority.setValue(pair[1]);
+				taskPriority.setName(key.toString());
+				taskPriority.setValue(value);
 				taskPriorityRepository.save(taskPriority);
 			}
-		}
-		
-		for(String[] pair: status) {
-			TaskStatusOptions foundState =
-					taskStateRepository.findByName(pair[0]);
+		});
+	}
+	
+	private void initializeStatusTable(Map<TaskStatus, String> statusOptions) {
+		statusOptions.forEach((key, value) -> {
+			TaskStatusOptions foundState = taskStateRepository.findByName(key.toString());
 			if(foundState == null) {
 				TaskStatusOptions taskState = new TaskStatusOptions();
-				taskState.setName(pair[0]);
-				taskState.setValue(pair[1]);
+				taskState.setName(key.toString());
+				taskState.setValue(value);
 				taskStateRepository.save(taskState);
 			}
-		}
-		
-		for(String[] pair: type) {
-			TaskTypeOptions foundType =
-					taskTypeRepository.findByName(pair[0]);
+		});
+	}
+	
+	private void initializeTypeTable(Map<TaskType, String> typeOptions) {
+		typeOptions.forEach((key, value) -> {
+			TaskTypeOptions foundType = taskTypeRepository.findByName(key.toString());
 			if(foundType == null) {
 				TaskTypeOptions taskType = new TaskTypeOptions();
-				taskType.setName(pair[0]);
-				taskType.setValue(pair[1]);
+				taskType.setName(key.toString());
+				taskType.setValue(value);
 				taskTypeRepository.save(taskType);
 			}
-		}
+		});
 	}
-
 }

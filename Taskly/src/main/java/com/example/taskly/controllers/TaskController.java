@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,9 +63,10 @@ public class TaskController {
 		return taskService.getAllTasks();
 	}
 	
-	@PreAuthorize("#userId == principal.id")
+//	@PreAuthorize("#userId == principal.id")
 	@GetMapping("/showUserTasks/{userId}")
 	public List<TaskDto> getUserTaskById(@PathVariable Long userId) {
+		System.out.println("I was here MArCin");
 		return taskService.getUserTask(userId);
 	}
 	

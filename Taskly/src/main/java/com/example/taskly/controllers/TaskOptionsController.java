@@ -11,7 +11,7 @@ import com.example.taskly.services.TaskOptionsService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/options")
 public class TaskOptionsController {

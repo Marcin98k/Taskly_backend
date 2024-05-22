@@ -59,7 +59,7 @@ public class TaskModel {
 	private TaskCategoryOptions category;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="task")
+	@JoinColumn(name="type")
 	private TaskTypeOptions type;
 	
 	@Column(name="note", nullable = true)

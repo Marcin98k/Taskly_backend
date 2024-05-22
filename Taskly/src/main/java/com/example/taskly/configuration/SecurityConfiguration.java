@@ -21,7 +21,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.example.taskly.keys.RSAKeyProperties;
@@ -72,11 +71,13 @@ public class SecurityConfiguration {
 		.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(auth -> {
-			auth.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
-			auth.requestMatchers("/auth/**").permitAll();
-			auth.requestMatchers("/admin/**").hasRole("ADMIN");
-			auth.requestMatchers("/user/**", "/api/v1/**", "/enum/**").hasAnyRole("ADMIN", "USER");
-			auth.anyRequest().authenticated();
+//			auth.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
+//			auth.requestMatchers("/auth/**", "/options/**").permitAll();
+//			auth.requestMatchers("/admin/**").hasRole("ADMIN");
+//			auth.requestMatchers("/user/**", "/api/v1/**", "/enum/**").hasAnyRole("ADMIN", "USER");
+//			auth.anyRequest().authenticated();
+			auth.anyRequest().permitAll();
+
 		});
 		
 		http.oauth2ResourceServer(oauth2 -> oauth2.

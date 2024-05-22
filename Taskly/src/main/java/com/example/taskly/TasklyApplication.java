@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.example.taskly.models.AccountStatusModel;
 import com.example.taskly.models.ApplicationUser;
 import com.example.taskly.models.RoleModel;
 import com.example.taskly.repositories.AccountStatusRepository;
@@ -29,32 +28,21 @@ public class TasklyApplication {
 			PasswordEncoder passwordEncoder, AccountStatusRepository accountStatusRepository) {
 		return args -> {
 			Set<RoleModel> auth = null;
-			AccountStatusModel accountStatus = null;
 			boolean shouldCreateAdmin = true;
 			
 			if(!roleRepository.findByAuthority("ADMIN").isPresent()) {
-				
 				RoleModel adminAuth = roleRepository.save(new RoleModel("ADMIN"));
 				roleRepository.save(new RoleModel("USER"));
-				
 				auth = new HashSet<>();
 				auth.add(adminAuth);
 			} else {
 				shouldCreateAdmin = false;
 			}
 			
-			if(!accountStatusRepository.findById(1L).isPresent()) {
-				accountStatus = accountStatusRepository.save(new AccountStatusModel(0L, "Name", "Value", "Description"));			
-			} else {
-				shouldCreateAdmin = false;
-			}
-			
 			if(shouldCreateAdmin) {
 				
-				ApplicationUser admin = new ApplicationUser(1L, "admin","admin@taskly.pl",
-						passwordEncoder.encode("password"), LocalDateTime.parse("2000-01-01T23:59:59"),
-						accountStatus, true, auth, LocalDateTime.parse("2000-01-01T23:59:59"));
-				
+				ApplicationUser admin = new ApplicationUser(1L, "admin","admin@taskly.pl", passwordEncoder.encode("password"),
+						LocalDateTime.parse("2000-01-01T23:59:59"), true, auth, LocalDateTime.parse("2000-01-01T23:59:59"));
 				userRepository.save(admin);
 			}
 		};

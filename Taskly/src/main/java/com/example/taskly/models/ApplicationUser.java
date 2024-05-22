@@ -46,8 +46,7 @@ public class ApplicationUser implements UserDetails {
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime whenJoin;
 	
-	@OneToOne(fetch=FetchType.EAGER)
-	private AccountStatusModel accountStatus;
+//	private AccountStatusModel accountStatus;
 	
 	private Boolean isActive;
 	
@@ -69,7 +68,7 @@ public class ApplicationUser implements UserDetails {
 	}
 	
 	public ApplicationUser(Long id, String username, String email, String password,
-			LocalDateTime whenJoin, AccountStatusModel accountStatus, Boolean isActive,
+			LocalDateTime whenJoin, Boolean isActive,
 			Set<RoleModel> authorities, LocalDateTime lastVisit) {
 		super();
 		this.id = id;
@@ -77,7 +76,6 @@ public class ApplicationUser implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.whenJoin = whenJoin;
-		this.accountStatus = accountStatus;
 		this.isActive = isActive;
 		this.authorities = authorities;
 		this.lastVisit = lastVisit;
